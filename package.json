@@ -14,10 +14,16 @@
   ],
   "scripts": {
     "start": "node index.js",
-    "dev": "node --watch index.js",
+    "build": "créer le build",
+    
+    "dev:back": "node --watch index.js",
+    "dev:front": "npm run dev --prefix client",
+    
     "db:create": "node ./src/migrations/create-tables.js",
     "db:populate": "node ./src/migrations/populate-tables.js",
-    "db:reset": "npm run db:create && npm run db:populate"
+    "db:reset": "npm run db:create && npm run db:populate",
+
+    "postinstall": "npm install --prefix client"
   },
   "author": "quinoa@oclock.io",
   "license": "ISC",

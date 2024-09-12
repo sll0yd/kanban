@@ -1,0 +1,29 @@
+{
+  "name": "s13-okanban-spa-enzoclock",
+  "version": "1.0.0",
+  "description": "Okanban Quinoa SPA",
+  "type": "module",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "okanban",
+    "nicole"
+  ],
+  "author": "quinoa@oclock.io",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^9.10.0",
+    "vite": "^5.4.4"
+  },
+  "dependencies": {
+    "animate.css": "^4.1.1",
+    "bulma-toast": "^2.4.4",
+    "sortablejs": "^1.15.3"
+  }
+}
