@@ -37,10 +37,7 @@ app.use(express.json({ limit: "10kb" })); // Body parser pour les body de type "
 app.use("/api", apiRouter);
 
 // Route de base
-app.use("/", (req, res) => {
-  res.send("<h1>Bienvenue sur l'API d'Okanban.</h1><p>Attention : les routes d'API sont préfixées par /api.</p>");
-  // TODO: mettre la documentation de l'API à la place !
-});
+app.use(express.static("client/dist")); // index.html ==> "/"
 
 // Lancement de l'application
 const PORT = process.env.PORT || 3000;

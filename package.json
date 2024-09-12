@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "start": "node index.js",
-    "build": "créer le build",
+    "build": "npm run build --prefix client",
     
     "dev:back": "node --watch index.js",
     "dev:front": "npm run dev --prefix client",
