@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doggo Party</title>
+  
+  <!-- Note : je met le CSS ici directement, mais pour faire propre il faudrait l'extraire dans son propre fichier -->
+  <style>
+    .flex {
+      display: flex;
+      flex-shrink: none;
+    }
+
+    img {
+      height: 400px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Doggo Party</h1>
+
+  <div class="flex">
+    <ul id="dogs"><!-- Ici, je veux insérer les données récupérer depuis l'API dog.ceo --></ul>
+    <img>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
