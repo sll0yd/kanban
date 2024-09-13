@@ -1,6 +1,7 @@
 import Sortable from "sortablejs";
 import * as api from "./api.js";
 import { closeActiveModal, displaySuccessToast, showErrorModal } from "./utils.js";
+import { addCardToList } from "./cards.module.js";
 
 export function initAddListButton() {
   // Récupérer le bouton d'ajout de liste
@@ -28,6 +29,11 @@ export async function fetchAndDisplayLists() {
   // Pour chaque liste, l'insérer dans la page : 
   lists.forEach(list => { 
     addListToListsContainer(list);
+
+    list.cards.forEach(card => {
+      // Insérer la carte dans la bonne liste !
+      addCardToList(card); // card = { color, content, list_id }
+    });
   });
 }
 
@@ -80,6 +86,52 @@ export function addListToListsContainer(list) { // list = { id, position, title,
     // Ouvre la modal
     deleteListModal.showModal();
 
+  });
+
+  // - ajouter un listener sur le bouton ➕ du clone
+  const addCardButton = listClone.querySelector('[slot="add-card-button"]');
+  addCardButton.addEventListener("click", () => {
+    // Sélectionner la modale de confirmation de suppression
+    const addCardModal = document.querySelector("#add-card-modal");
+
+    // Fournir à la modal l'ID de la liste à supprimer (en passant => dataset)
+    addCardModal.dataset.listId = list.id;
+
+    // Ouvre la modal
+    addCardModal.showModal();
+
+  });
+
+  // - ajout du drag and drop sur les cartes de la liste
+  const cardsContainer = listClone.querySelector('[slot="list-content"]');
+  Sortable.create(cardsContainer, {
+    animation: 150,
+    group: "shared",
+    onEnd: async (event) => {
+      const cardId = parseInt(event.item.id.slice(5));
+      const fromListId = parseInt(event.from.parentElement.id.slice(5));
+      const toListId = parseInt(event.to.parentElement.id.slice(5));
+
+      if (fromListId !== toListId) { // S'il y a eu changement de liste, on update la list_id de la carte
+        const updatedCard = await api.updateCard(cardId, { list_id: toListId });
+        if (!updatedCard) { showErrorModal(); return; }
+      }
+
+      // Et on update les positions des cartes dans la liste d'arrivée 
+      const cardElements = Array.from(document.querySelector(`#list-${toListId} [slot="list-content"]`).children);
+      const promises = cardElements.map((card, index) => {
+        const cardId = card.id.slice(5);
+        const position = index + 1;
+        return api.updateCard(cardId, { position });
+      });
+      const results = await Promise.all(promises);
+
+      if (results.includes(null)) { // Si l'une des requêtes n'as pas marché
+        showErrorModal();
+      } else {
+        displaySuccessToast("Positions des cartes sauvegardées avec succès");
+      }
+    }
   });
 
   // - récupérer le lists-container

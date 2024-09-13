@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Title -->
-    <title>oKanban</title>
+    <title>Kanban 🎯</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg width='24px' height='24px' stroke-width='1.5' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' color='%23000000'%3E%3Cpath d='M3 3.6V20.4C3 20.7314 3.26863 21 3.6 21H20.4C20.7314 21 21 20.7314 21 20.4V3.6C21 3.26863 20.7314 3 20.4 3H3.6C3.26863 3 3 3.26863 3 3.6Z' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3C/path%3E%3Cpath d='M6 6L6 16' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3C/path%3E%3Cpath d='M10 6V9' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3C/path%3E%3Cpath d='M14 6V13' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3C/path%3E%3Cpath d='M18 6V11' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3C/path%3E%3C/svg%3E">
@@ -27,7 +27,7 @@
 
 <body class="container is-fluid my-6">
   <header class="my-5">
-    <h1 class="title has-text-centered is-1">oKanban</h1>
+    <h1 class="title has-text-centered is-1">Kanban 🎯</h1>
     <button class="button is-info is-outlined" id="add-list-button"><i class="fas fa-plus mr-2"></i>Ajouter une liste</button>
   </header>
 
@@ -84,7 +84,7 @@
     </div>
   </dialog>
 
-  <!-- Fenêtre de dialogue pour l'édition de liste -->
+  <!-- Fenêtre de dialogue pour la suppression d'une liste -->
   <dialog id="delete-list-modal">
     <div class="modal is-active">
       <div class="modal-background close"></div>
@@ -98,6 +98,87 @@
           <div class="modal-card-body">
             <p>Êtes-vous certain de vouloir supprimer la liste ?</p>
             <p>Cette opération entrainera également la suppression de toutes les cartes de cette liste.</p>
+            <strong>Cette opération est définitive.</strong>
+          </div>
+  
+          <div class="modal-card-foot">
+            <button class="button is-danger">Supprimer</button>
+            <button class="button close" type="button">Annuler</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Fenêtre de dialogue pour l'ajout de carte -->
+  <dialog id="add-card-modal">
+    <div class="modal is-active">
+      <div class="modal-background close"></div>
+      <div class="modal-card">
+        <form>
+          <div class="modal-card-head">
+            <p class="modal-card-title">Ajouter une carte</p>
+            <button class="delete close" type="button" aria-label="close"></button>
+          </div>
+  
+          <div class="modal-card-body">
+            <label for="add-card-content" class="label">Contenu</label>
+            <input id="add-card-content" class="input" type="text" name="content" placeholder="Contenu de la carte">
+
+            <label for="add-card-color" class="label">Couleur</label>
+            <input id="add-card-color" class="input" type="color" name="color" value="#ffffff">
+          </div>
+  
+          <div class="modal-card-foot">
+            <button class="button is-success">Ajouter</button>
+            <button class="button close" type="button">Annuler</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Fenêtre de dialogue pour l'édition de carte -->
+  <dialog id="edit-card-modal">
+    <div class="modal is-active">
+      <div class="modal-background close"></div>
+      <div class="modal-card">
+        <form>
+          <div class="modal-card-head">
+            <p class="modal-card-title">Modifier une carte</p>
+            <button class="delete close" type="button" aria-label="close"></button>
+          </div>
+  
+          <div class="modal-card-body">
+            <label for="edit-card-title" class="label">Nouveau contenu</label>
+            <input id="edit-card-title" class="input" type="text" name="content" placeholder="Contenu de la carte">
+
+            <label for="edit-card-title" class="label">Nouvelle couleur</label>
+            <input id="edit-card-title" class="input" type="color" name="color">
+          </div>
+  
+          <div class="modal-card-foot">
+            <button class="button is-success">Modifier</button>
+            <button class="button close" type="button">Annuler</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Fenêtre de dialogue pour la suppression d'une carte -->
+  <dialog id="delete-card-modal">
+    <div class="modal is-active">
+      <div class="modal-background close"></div>
+      <div class="modal-card">
+        <form>
+          <div class="modal-card-head">
+            <p class="modal-card-title">Supprimer la carte</p>
+            <button class="delete close" type="button" aria-label="close"></button>
+          </div>
+  
+          <div class="modal-card-body">
+            <p>Êtes-vous certain de vouloir supprimer cette carte ?</p>
             <strong>Cette opération est définitive.</strong>
           </div>
   
@@ -140,15 +221,14 @@
     <div class="message-header">
       <div slot="list-title">TITRE_DE_LA_LISTE</div>
       <div>
-        
         <span class="icon is-clickable" slot="list-drag-button"><i class="fas fa-arrows-alt"></i></span>
         <span class="icon is-clickable" slot="list-edit-button"><i class="fas fa-pen"></i></span>
         <span class="icon is-clickable" slot="list-delete-button"><i class="fas fa-trash"></i></span>
-        <span class="icon is-clickable"><i class="fas fa-plus"></i></span>
+        <span class="icon is-clickable" slot="add-card-button"><i class="fas fa-plus"></i></span>
       </div>
     </div>
 
-    <div class="message-body">
+    <div class="message-body" slot="list-content">
       <!-- Cards go here -->
     </div>
   </section>
@@ -156,12 +236,12 @@
 
 <!-- Template pour une carte -->
 <template id="card-template">
-  <article class="card">
+  <article class="card" slot="card-id">
     <div class="card-header">
-      <div class="card-header-title has-text-weight-medium">CONTENU_DE_LA_CARTE</div>
+      <div class="card-header-title has-text-weight-medium" slot="card-content">CONTENU_DE_LA_CARTE</div>
       <div class="card-header-icon">
-        <span class="icon has-text-success"><i class="fas fa-pencil-alt"></i></span>
-        <span class="icon has-text-danger ml-2"><i class="fas fa-trash-alt"></i></span>
+        <span class="icon has-text-success" slot="edit-card-button"><i class="fas fa-pencil-alt"></i></span>
+        <span class="icon has-text-danger ml-2" slot="delete-card-button"><i class="fas fa-trash-alt"></i></span>
       </div>
     </div>
   </article>

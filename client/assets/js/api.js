@@ -95,3 +95,67 @@ export async function deleteList(listId) {
     return false;
   }
 }
+
+export async function createCard(cardData) { // card = { content, list_id, color }
+  try {
+
+    const httpResponse = await fetch(`${apiBaseUrl}/cards`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(cardData)
+    });
+  
+    if (! httpResponse.ok) {
+      console.log(httpResponse);
+      return null;
+    }
+  
+    const createdCard = await httpResponse.json();
+    return createdCard;
+
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function updateCard(cardId, cardData) { // cardData = { content, color, list_id }
+  try {
+
+    const httpResponse = await fetch(`${apiBaseUrl}/cards/${cardId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(cardData)
+    });
+  
+    if (!httpResponse.ok) {
+      console.log(httpResponse);
+      return null;
+    }
+  
+    const updatedCard = await httpResponse.json();
+    return updatedCard;
+
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function deleteCard(cardId) {
+  try {
+    const httpResponse = await fetch(`${apiBaseUrl}/cards/${cardId}`, {
+      method: "DELETE"
+    });
+  
+    if (! httpResponse.ok) {
+      console.error(httpResponse);
+      return false;
+    }
+  
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}

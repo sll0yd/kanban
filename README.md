@@ -1,4 +1,4 @@
-# O'Kanban Mono-dépôt
+# Kanban 🎯 Mono-dépôt
 
 ## En mode developpement
 
